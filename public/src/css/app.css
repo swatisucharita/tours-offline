@@ -1,0 +1,10 @@
+.demo-card-square.mdl-card {
+    width: 320px;
+    height: 320px;
+    margin: 20px;
+  }
+  .demo-card-square > .mdl-card__title {
+    color: #fff;
+    background:
+      url('../images/hampi.png') bottom right 15% no-repeat #fff;
+  }
