@@ -2,9 +2,29 @@
     width: 320px;
     height: 320px;
     margin: 20px;
-  }
-  .demo-card-square > .mdl-card__title {
+    display: inline-block;
+}
+.demo-card-square > .mdl-card__title {
     color: #fff;
-    background:
-      url('../images/hampi.png') bottom right 15% no-repeat #fff;
-  }
+}
+
+.floating-button {
+    z-index: 1000;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 30px;
+}
+
+#create-tour {
+  z-index: 1001;
+  position: fixed;
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: scroll;
+  bottom: 0;
+  top: 56px;
+  background: white;
+  text-align: center;
+  display: none;
+}

@@ -1,7 +1,7 @@
 importScripts('idb.js');
 importScripts('/src/js/utility.js');
 
-const STATIC_CACHE = 'STATIC_CACHE_V7'; // Update the version number if change anything other than the service worker
+const STATIC_CACHE = 'STATIC_CACHE_V8'; // Update the version number if change anything other than the service worker
 const DYNAMIC_CACHE = 'DYNAMIC_CACHE_V4';
 
 const static_content = [

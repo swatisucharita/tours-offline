@@ -30,21 +30,36 @@
             </nav>
         </div>
         <main class="mdl-layout__content">
-            <div class="page-content" id="cards-container">
-                <!-- Your content goes here -->
-                <!-- <div class="demo-card-square mdl-card mdl-shadow--2dp">
-                    <div class="mdl-card__title mdl-card--expand">
-                        <h2 class="mdl-card__title-text">Hampi</h2>
+            <div id="create-tour">
+                <form>
+                    <div class="input-section mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="title">
+                        <label class="mdl-textfield__label" for="title" name="title">Title</label>
                     </div>
-                    <div class="mdl-card__supporting-text">
-                        An archeological wonder in south of India. On the bank of mighty Tungabhadra.
+                    <div class="input-section mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="manual-location">
+                        <input class="mdl-textfield__input" type="text" id="description">
+                        <label class="mdl-textfield__label" for="description" name="location">Description</label>
                     </div>
-                    <div class="mdl-card__actions mdl-card--border">
-                        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                            More Info
-                        </a>
+                    <br>
+                    <div>
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-color--accent"
+                            type="submit" id="post-btn">Post!
+                        </button>
                     </div>
-                </div> -->
+                    <br>
+                    <div>
+                        <button class="mdl-button mdl-js-button mdl-button--fab" id="close-create-tour-modal-btn" type="button">
+                            <i class="material-icons">close</i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="page-content" id="cards-container"></div>
+            <div class="floating-button">
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored"
+                        id="add-tour-button">
+                  <i class="material-icons">add</i>
+                </button>
             </div>
         </main>
     </div>
