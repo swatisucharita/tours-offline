@@ -33,18 +33,37 @@ const submitForm = () => {
           id: new Date().toISOString(),
           title: titleInput.value,
           description: descriptionInput.value,
-          image: "https://firebasestorage.googleapis.com/v0/b/tours-offline-demo.appspot.com/o/hampi.png?alt=media&token=13147e46-27aa-41d7-b658-67c331ec05a5"
+          image: "https://firebasestorage.googleapis.com/v0/b/tours-offline-demo.appspot.com/o/IMG_20180705_155004.jpg?alt=media&token=bcc4303e-18fe-4f13-a831-b9c991347ecb"
         })
       })
       .then((res) => {
         console.log('Posted data: ', res);
-        updateCards();
+        fetchCards();
       });
 }
 
 const submitAndCloseForm = () => {
     closeTourForm();
-    submitForm();
+    if ('serviceWorker' in navigator && 'SyncManager' in window) {
+        navigator.serviceWorker.ready
+            .then(sw => {
+                const tour = {
+                    id: new Date().toISOString(),
+                    title: titleInput.value,
+                    description: descriptionInput.value,
+                    image: "https://firebasestorage.googleapis.com/v0/b/tours-offline-demo.appspot.com/o/IMG_20180705_155004.jpg?alt=media&token=bcc4303e-18fe-4f13-a831-b9c991347ecb"
+                };
+                return writeData('sync-tours', tour) // save data for future processing
+                    .then(() => {
+                        return sw.sync.register('sync-new-tours'); // register sync event
+                    })
+                    .then(() => {
+                        alert('Tour is saved for syncing');
+                    })
+            });
+    } else {
+        submitForm(); // Keep the default behaviour working for other browsers
+    }
 };
 
 addTourButton.addEventListener('click', openTourForm);
@@ -102,15 +121,18 @@ const updateCards = (tours) => {
 const url = 'https://tours-offline-demo.firebaseio.com/tours.json';
 var networkDataReceived = false;
 
-fetch(url)
-    .then(res => {
-        return res.json();
-    })
-    .then(data => {
-        networkDataReceived = true;
-        console.log('Fetched tour details', data);
-        updateCards(Object.values(data));
-    });
+fetchCards = () => {
+    fetch(url)
+        .then(res => {
+            return res.json();
+        })
+        .then(data => {
+            networkDataReceived = true;
+            console.log('Fetched tour details', data);
+            updateCards(Object.values(data));
+        });
+}
+fetchCards();
 
 if ('indexedDB' in window) {
     readData('tours')

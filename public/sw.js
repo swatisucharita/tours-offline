@@ -1,7 +1,7 @@
 importScripts('idb.js');
 importScripts('/src/js/utility.js');
 
-const STATIC_CACHE = 'STATIC_CACHE_V8'; // Update the version number if change anything other than the service worker
+const STATIC_CACHE = 'STATIC_CACHE_V20'; // Update the version number if change anything other than the service worker
 const DYNAMIC_CACHE = 'DYNAMIC_CACHE_V4';
 
 const static_content = [
@@ -106,5 +106,31 @@ self.addEventListener('fetch', (event) =>{
                     });
             })
         );    
+    }
+});
+
+self.addEventListener("sync", function(event) {
+    console.log('Send the request: ', event);
+    if (event.tag === 'sync-new-tours') {
+        readData('sync-tours') // Read pending requests.
+            .then(tours => {
+                for (let tour in tours) {
+                    fetch("https://tours-offline-demo.firebaseio.com/tours.json", { // post the requests
+                        method: 'post',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(tour)
+                      })
+                      .then((res) => {
+                        console.log('Posted data: ', res);
+                        if (res.ok) {
+                            deleteItemFromData('sync-tours', tour.id); // Delete from the pending list when completed.
+                          }
+                      })
+                      .catch(err => console.log('Failed to post data: ', err) );
+                }
+            });
     }
 });

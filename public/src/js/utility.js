@@ -2,6 +2,9 @@ const prepareDb = idb.openDb('tours-db', 1, (db) => {
     if (!db.objectStoreNames.contains('tours')) {
         db.createObjectStore('tours', { keyPath: 'id' });
     }
+    if (!db.objectStoreNames.contains('sync-tours')) {
+        db.createObjectStore('sync-tours', { keyPath: 'id' });
+    }
 });
 
 // Write data to a particular store
@@ -35,3 +38,17 @@ const clearAllData = (st) => {
             return tx.complete; // Complete transaction block
         });
 }
+
+// remove item by id
+function deleteItemFromData(st, id) {
+    return prepareDb
+      .then(function(db) {
+        var tx = db.transaction(st, 'readwrite');
+        var store = tx.objectStore(st);
+        store.delete(id);
+        return tx.complete;
+      })
+      .then(function() {
+        console.log('Item deleted!');
+      });
+  }
