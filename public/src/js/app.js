@@ -143,3 +143,37 @@ if ('indexedDB' in window) {
             }
         });
 }
+
+const enableNotificationsButtons = document.querySelectorAll('.enable-notifications');
+function askForPermission() {
+    console.log('Ask for permission');
+    Notification.requestPermission().then(result => {
+        console.log(result);
+        if (result !== 'granted') {
+            console.log('User permission not granted');
+        } else {
+            const options = {
+                body: 'Notification from tours offline',
+                image: '/src/images/hampi.png',
+                onClick: () => {} // Will redirect to a page in the push message
+            };
+            // show notification
+            // new Notification('Notification from tours offline');
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.ready
+                    .then(sw => {
+                        sw.showNotification("Enabled notification successfully [Service Worker]", options);
+                    });
+            } else {
+                new Notification('Enabled Notification Successfully', options);
+            }
+            
+        }
+    })
+}
+
+if ('Notification' in window) {
+    for (let i = 0; i < enableNotificationsButtons.length; i++) {
+        enableNotificationsButtons[i].addEventListener('click', askForPermission);
+    }
+}
